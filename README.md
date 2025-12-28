@@ -1,6 +1,6 @@
-# Abilities Inspector
+# WordPress Abilities API Inspector
 
-Abilities Inspector is a WordPress admin plugin that lets you browse every registered Ability on your site and quickly disable or re-enable them. It is built for the WordPress Abilities API and provides a fast, filterable list table with bulk actions plus a details panel for deeper inspection.
+Abilities Inspector is a WordPress admin plugin that lets you browse every registered Ability on your site and quickly disable or re-enable them. It is built for the WordPress Abilities API introduced in WP 6.9, and provides a fast, filterable list table with bulk actions plus a details panel for deeper inspection.
 
 ## Key Features
 
