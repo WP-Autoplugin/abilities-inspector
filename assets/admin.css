@@ -1,0 +1,80 @@
+/* Abilities Explorer — wp-admin friendly polish */
+.abex-wrap .abex-subtitle { margin-top: 6px; color: #646970; }
+
+.abex-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.abex-stat { background: #f6f7f7; border: 1px solid #dcdcde; padding: 6px 10px; border-radius: 999px; }
+.abex-stat__num { font-weight: 600; }
+.abex-stat__label { color: #50575e; }
+
+.abex-title { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.abex-label { font-weight: 600; }
+.abex-muted { color: #646970; }
+.abex-trim { max-width: 780px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.abex-danger { color: #b32d2e; }
+
+.abex-pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	border-radius: 999px;
+	font-size: 12px;
+	line-height: 1.6;
+	border: 1px solid #dcdcde;
+	background: #fff;
+	color: #50575e;
+}
+.abex-pill--on { background: #f0f6fc; border-color: #c8d7f1; color: #0a4b78; }
+.abex-pill--off { background: #fcf0f1; border-color: #f1c8cb; color: #8a2424; }
+
+.abex-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	border: 1px solid #dcdcde;
+	background: #f6f7f7;
+	color: #1d2327;
+}
+.abex-chip--ok { background: #edfaef; border-color: #b8e6bf; }
+.abex-chip--warn { background: #fcf0f1; border-color: #f1c8cb; }
+
+.abex-details.button .dashicons { margin-top: 4px; }
+.abex-details-row td { padding: 0 10px 10px 10px; }
+
+.abex-details-panel {
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	padding: 12px;
+	background: #f6f7f7;
+}
+
+.abex-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+@media (max-width: 960px) {
+	.abex-grid { grid-template-columns: 1fr; }
+}
+
+.abex-kv { margin: 0; }
+.abex-kv dt { font-weight: 600; margin-top: 10px; }
+.abex-kv dd { margin: 4px 0 0 0; color: #1d2327; }
+
+.abex-pre {
+	margin: 8px 0 0 0;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 10px;
+	overflow: auto;
+	max-height: 260px;
+}
+
+.abex-note {
+	margin-top: 10px;
+	color: #50575e;
+	font-size: 12px;
+}
+
