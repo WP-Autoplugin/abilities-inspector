@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-final class WP_ABEX_Usage {
+final class WP_ABIN_Usage {
 	public static function init(): void {
 		// If Abilities API isn't present, do nothing.
 		if ( ! function_exists( 'wp_get_abilities' ) ) {
@@ -11,6 +11,6 @@ final class WP_ABEX_Usage {
 	}
 
 	public static function track( string $ability_name, $input, $result ): void {
-		WP_ABEX_Store::increment_execution( $ability_name );
+		WP_ABIN_Store::increment_execution( $ability_name );
 	}
 }

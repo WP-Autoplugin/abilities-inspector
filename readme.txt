@@ -1,4 +1,4 @@
-=== Abilities Explorer ===
+=== Abilities Inspector ===
 Contributors: pbalazs
 Tags: abilities, ai, admin
 Requires at least: 6.9
@@ -15,7 +15,7 @@ Disabled abilities are blocked by overriding their permission_callback during re
 == Installation ==
 1. Upload the plugin folder to /wp-content/plugins/ OR install the ZIP via Plugins → Add New → Upload.
 2. Activate.
-3. Go to Tools → Abilities Explorer.
+3. Go to Tools → Abilities Inspector.
 
 == Changelog ==
 

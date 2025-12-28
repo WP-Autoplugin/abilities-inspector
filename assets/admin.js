@@ -1,13 +1,13 @@
 (function($){
 	function applyStriping() {
-		$('.abex-wrap .wp-list-table').each(function(){
+		$('.abin-wrap .wp-list-table').each(function(){
 			var $table = $(this);
-			var $rows = $table.find('tbody tr').not('.abex-details-row');
+			var $rows = $table.find('tbody tr').not('.abin-details-row');
 
-			$rows.addClass('abex-row').removeClass('abex-alt');
+			$rows.addClass('abin-row').removeClass('abin-alt');
 			$rows.each(function(index){
 				if (index % 2 === 0) {
-					$(this).addClass('abex-alt');
+					$(this).addClass('abin-alt');
 				}
 			});
 		});
@@ -32,16 +32,16 @@
 		var desc = data.description ? $('<div/>').text(data.description).html() : '—';
 
 		var html = '';
-		html += '<div class="abex-grid">';
+		html += '<div class="abin-grid">';
 		html += '  <div>';
-		html += '    <dl class="abex-kv">';
+		html += '    <dl class="abin-kv">';
 		html += '      <dt>Name</dt><dd><code>' + $('<div/>').text(data.name).html() + '</code></dd>';
 		html += '      <dt>Label</dt><dd>' + $('<div/>').text(data.label || '—').html() + '</dd>';
 		html += '      <dt>Description</dt><dd>' + desc + '</dd>';
 		html += '    </dl>';
 		html += '  </div>';
 		html += '  <div>';
-		html += '    <dl class="abex-kv">';
+		html += '    <dl class="abin-kv">';
 		html += '      <dt>Category</dt><dd>' + $('<div/>').text(data.category_label || data.category || '—').html() + '</dd>';
 		html += '      <dt>show_in_rest</dt><dd><code>' + rest + '</code></dd>';
 		html += '      <dt>Executions</dt><dd><code>' + (typeof data.executions === 'number' ? data.executions : '—') + '</code></dd>';
@@ -55,37 +55,37 @@
 		var out = prettyJSON(data.output_schema);
 
 		if (ann) {
-			html += '<div style="margin-top:12px;"><strong>Annotations</strong><pre class="abex-pre"></pre></div>';
+			html += '<div style="margin-top:12px;"><strong>Annotations</strong><pre class="abin-pre"></pre></div>';
 		}
 		if (inp) {
-			html += '<div style="margin-top:12px;"><strong>Input schema</strong><pre class="abex-pre"></pre></div>';
+			html += '<div style="margin-top:12px;"><strong>Input schema</strong><pre class="abin-pre"></pre></div>';
 		}
 		if (out) {
-			html += '<div style="margin-top:12px;"><strong>Output schema</strong><pre class="abex-pre"></pre></div>';
+			html += '<div style="margin-top:12px;"><strong>Output schema</strong><pre class="abin-pre"></pre></div>';
 		}
 
-		html += '<div class="abex-note">Note: Some fields may appear blank if the registering plugin does not provide them or if the Abilities object does not expose them as public accessors.</div>';
+		html += '<div class="abin-note">Note: Some fields may appear blank if the registering plugin does not provide them or if the Abilities object does not expose them as public accessors.</div>';
 
-		var $wrap = $('<div class="abex-details-content"></div>').html(html);
+		var $wrap = $('<div class="abin-details-content"></div>').html(html);
 
 		var preIndex = 0;
-		if (ann) { $wrap.find('pre.abex-pre').eq(preIndex++).text(ann); }
-		if (inp) { $wrap.find('pre.abex-pre').eq(preIndex++).text(inp); }
-		if (out) { $wrap.find('pre.abex-pre').eq(preIndex++).text(out); }
+		if (ann) { $wrap.find('pre.abin-pre').eq(preIndex++).text(ann); }
+		if (inp) { $wrap.find('pre.abin-pre').eq(preIndex++).text(inp); }
+		if (out) { $wrap.find('pre.abin-pre').eq(preIndex++).text(out); }
 
 		return $wrap;
 	}
 
-	$(document).on('click', '.abex-details', function(e){
+	$(document).on('click', '.abin-details', function(e){
 		e.preventDefault();
 
 		var $btn = $(this);
 		var $row = $btn.closest('tr');
-		var $detailsRow = $row.next('.abex-details-row');
-		var $panelHost = $detailsRow.find('.abex-details-panel');
+		var $detailsRow = $row.next('.abin-details-row');
+		var $panelHost = $detailsRow.find('.abin-details-panel');
 
 		// Close other open panels in the table.
-		$('.abex-details-row:visible').not($detailsRow).hide().prev().find('.abex-details').removeClass('is-open');
+		$('.abin-details-row:visible').not($detailsRow).hide().prev().find('.abin-details').removeClass('is-open');
 
 		if ($detailsRow.is(':visible')) {
 			$detailsRow.hide();
@@ -100,7 +100,7 @@
 			var data = JSON.parse(json);
 			$panelHost.empty().append(renderPanel(data));
 		} catch(err) {
-			$panelHost.empty().append('<div class="abex-details-panel">Could not render details.</div>');
+			$panelHost.empty().append('<div class="abin-details-panel">Could not render details.</div>');
 		}
 
 		$detailsRow.show();

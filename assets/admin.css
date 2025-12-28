@@ -1,18 +1,18 @@
-/* Abilities Explorer — wp-admin friendly polish */
-.abex-wrap .abex-subtitle { margin-top: 6px; color: #646970; }
+/* Abilities Inspector — wp-admin friendly polish */
+.abin-wrap .abin-subtitle { margin-top: 6px; color: #646970; }
 
-.abex-stats { display: flex; gap: 12px; flex-wrap: wrap; }
-.abex-stat { background: #f6f7f7; border: 1px solid #dcdcde; padding: 6px 10px; border-radius: 999px; }
-.abex-stat__num { font-weight: 600; }
-.abex-stat__label { color: #50575e; }
+.abin-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.abin-stat { background: #f6f7f7; border: 1px solid #dcdcde; padding: 6px 10px; border-radius: 999px; }
+.abin-stat__num { font-weight: 600; }
+.abin-stat__label { color: #50575e; }
 
-.abex-title { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
-.abex-label { font-weight: 600; }
-.abex-muted { color: #646970; }
-.abex-trim { max-width: 780px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.abex-danger { color: #b32d2e; }
+.abin-title { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.abin-label { font-weight: 600; }
+.abin-muted { color: #646970; }
+.abin-trim { max-width: 780px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.abin-danger { color: #b32d2e; }
 
-.abex-pill {
+.abin-pill {
 	display: inline-flex;
 	align-items: center;
 	padding: 2px 8px;
@@ -23,10 +23,10 @@
 	background: #fff;
 	color: #50575e;
 }
-.abex-pill--on { background: #f0f6fc; border-color: #c8d7f1; color: #0a4b78; }
-.abex-pill--off { background: #fcf0f1; border-color: #f1c8cb; color: #8a2424; }
+.abin-pill--on { background: #f0f6fc; border-color: #c8d7f1; color: #0a4b78; }
+.abin-pill--off { background: #fcf0f1; border-color: #f1c8cb; color: #8a2424; }
 
-.abex-chip {
+.abin-chip {
 	display: inline-flex;
 	align-items: center;
 	padding: 2px 8px;
@@ -36,54 +36,54 @@
 	background: #f6f7f7;
 	color: #1d2327;
 }
-.abex-chip--ok { background: #edfaef; border-color: #b8e6bf; }
-.abex-chip--warn { background: #fcf0f1; border-color: #f1c8cb; }
+.abin-chip--ok { background: #edfaef; border-color: #b8e6bf; }
+.abin-chip--warn { background: #fcf0f1; border-color: #f1c8cb; }
 
-.abex-wrap .wp-list-table th.column-name,
-.abex-wrap .wp-list-table td.column-name { width: 35%; }
+.abin-wrap .wp-list-table th.column-name,
+.abin-wrap .wp-list-table td.column-name { width: 35%; }
 
-.abex-details.button {
+.abin-details.button {
 	display: inline-flex;
 	align-items: center;
 	padding: 0 8px;
 	gap: 4px;
 }
-.abex-toggle.button {
+.abin-toggle.button {
 	margin-right: 6px;
 }
-.abex-details .dashicons {
+.abin-details .dashicons {
 	font-size: 14px;
 	width: 14px;
 	height: 14px;
 	line-height: 14px;
 }
-.abex-details-row td { padding: 0 10px 10px 10px; }
-.abex-wrap .wp-list-table.striped > tbody > tr.abex-row { background: #fff; }
-.abex-wrap .wp-list-table.striped > tbody > tr.abex-row.abex-alt { background: #f6f7f7; }
-.abex-wrap .wp-list-table.striped > tbody > tr.abex-details-row { background: #fff; }
-.abex-wrap .wp-list-table.striped > tbody > tr.abex-row.abex-alt + tr.abex-details-row { background: #f6f7f7; }
+.abin-details-row td { padding: 0 10px 10px 10px; }
+.abin-wrap .wp-list-table.striped > tbody > tr.abin-row { background: #fff; }
+.abin-wrap .wp-list-table.striped > tbody > tr.abin-row.abin-alt { background: #f6f7f7; }
+.abin-wrap .wp-list-table.striped > tbody > tr.abin-details-row { background: #fff; }
+.abin-wrap .wp-list-table.striped > tbody > tr.abin-row.abin-alt + tr.abin-details-row { background: #f6f7f7; }
 
-.abex-details-panel {
+.abin-details-panel {
 	border: 1px solid #dcdcde;
 	border-radius: 8px;
 	padding: 12px;
 	background: #f6f7f7;
 }
 
-.abex-grid {
+.abin-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 12px;
 }
 @media (max-width: 960px) {
-	.abex-grid { grid-template-columns: 1fr; }
+	.abin-grid { grid-template-columns: 1fr; }
 }
 
-.abex-kv { margin: 0; }
-.abex-kv dt { font-weight: 600; margin-top: 10px; }
-.abex-kv dd { margin: 4px 0 0 0; color: #1d2327; }
+.abin-kv { margin: 0; }
+.abin-kv dt { font-weight: 600; margin-top: 10px; }
+.abin-kv dd { margin: 4px 0 0 0; color: #1d2327; }
 
-.abex-pre {
+.abin-pre {
 	margin: 8px 0 0 0;
 	background: #fff;
 	border: 1px solid #dcdcde;
@@ -93,7 +93,7 @@
 	max-height: 260px;
 }
 
-.abex-note {
+.abin-note {
 	margin-top: 10px;
 	color: #50575e;
 	font-size: 12px;

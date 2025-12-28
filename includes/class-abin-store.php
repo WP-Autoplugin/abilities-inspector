@@ -1,9 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-final class WP_ABEX_Store {
-	const OPTION_DISABLED = 'abex_disabled_abilities';
-	const OPTION_EXEC_COUNTS = 'abex_ability_exec_counts';
+final class WP_ABIN_Store {
+	const OPTION_DISABLED = 'abin_disabled_abilities';
+	const OPTION_EXEC_COUNTS = 'abin_ability_exec_counts';
 
 	/**
 	 * Returns a set: [ ability_name => true ].

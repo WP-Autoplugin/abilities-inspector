@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-final class WP_ABEX_Disable_Filter {
+final class WP_ABIN_Disable_Filter {
 	public static function init(): void {
 		// If Abilities API isn't present, do nothing.
 		if ( ! function_exists( 'wp_get_abilities' ) ) {
@@ -18,13 +18,13 @@ final class WP_ABEX_Disable_Filter {
 	 * - replace permission_callback with a callback that denies with WP_Error(403)
 	 */
 	public static function filter_register_args( array $args, string $name ): array {
-		if ( WP_ABEX_Store::is_disabled( $name ) ) {
+		if ( WP_ABIN_Store::is_disabled( $name ) ) {
 			$args['show_in_rest'] = false;
 
 			$args['permission_callback'] = static function() use ( $name ) {
 				return new WP_Error(
-					'abex_ability_disabled',
-					sprintf( 'Ability "%s" is disabled by Abilities Explorer.', $name ),
+					'abin_ability_disabled',
+					sprintf( 'Ability "%s" is disabled by Abilities Inspector.', $name ),
 					array( 'status' => 403 )
 				);
 			};

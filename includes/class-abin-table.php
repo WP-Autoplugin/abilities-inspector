@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-final class WP_ABEX_Table extends WP_List_Table {
+final class WP_ABIN_Table extends WP_List_Table {
 	private $items_raw = array();
 	private $total_count = 0;
 	private $disabled_count = 0;
@@ -33,20 +33,20 @@ final class WP_ABEX_Table extends WP_List_Table {
 		}
 
 		// Nonce.
-		check_admin_referer( 'abex_action', 'abex_nonce' );
+		check_admin_referer( 'abin_action', 'abin_nonce' );
 
 		// Single toggle.
 		if ( in_array( $action, array( 'enable', 'disable' ), true ) ) {
 			$name = isset( $_GET['ability'] ) ? sanitize_text_field( wp_unslash( $_GET['ability'] ) ) : '';
 			if ( $name !== '' ) {
 				if ( $action === 'disable' ) {
-					WP_ABEX_Store::disable( $name );
+					WP_ABIN_Store::disable( $name );
 				} else {
-					WP_ABEX_Store::enable( $name );
+					WP_ABIN_Store::enable( $name );
 				}
 				add_action( 'admin_notices', function() use ( $action ) {
 					echo '<div class="notice notice-success is-dismissible"><p>';
-					echo esc_html( $action === 'disable' ? __( 'Ability disabled.', 'abilities-explorer' ) : __( 'Ability enabled.', 'abilities-explorer' ) );
+					echo esc_html( $action === 'disable' ? __( 'Ability disabled.', 'abilities-inspector' ) : __( 'Ability enabled.', 'abilities-inspector' ) );
 					echo '</p></div>';
 				} );
 			}
@@ -64,9 +64,9 @@ final class WP_ABEX_Table extends WP_List_Table {
 					continue;
 				}
 				if ( $action === 'bulk-disable' ) {
-					WP_ABEX_Store::disable( $name );
+					WP_ABIN_Store::disable( $name );
 				} else {
-					WP_ABEX_Store::enable( $name );
+					WP_ABIN_Store::enable( $name );
 				}
 				$count++;
 			}
@@ -74,12 +74,12 @@ final class WP_ABEX_Table extends WP_List_Table {
 			add_action( 'admin_notices', function() use ( $action, $count ) {
 				echo '<div class="notice notice-success is-dismissible"><p>';
 				if ( $count === 0 ) {
-					echo esc_html__( 'No abilities selected.', 'abilities-explorer' );
+					echo esc_html__( 'No abilities selected.', 'abilities-inspector' );
 				} else {
 					echo esc_html(
 						$action === 'bulk-disable'
-							? sprintf( _n( '%d ability disabled.', '%d abilities disabled.', $count, 'abilities-explorer' ), $count )
-							: sprintf( _n( '%d ability enabled.', '%d abilities enabled.', $count, 'abilities-explorer' ), $count )
+							? sprintf( _n( '%d ability disabled.', '%d abilities disabled.', $count, 'abilities-inspector' ), $count )
+							: sprintf( _n( '%d ability enabled.', '%d abilities enabled.', $count, 'abilities-inspector' ), $count )
 					);
 				}
 				echo '</p></div>';
@@ -89,7 +89,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 	}
 
 	public function prepare_items(): void {
-		$disabled_set = WP_ABEX_Store::get_disabled_set();
+		$disabled_set = WP_ABIN_Store::get_disabled_set();
 
 		$abilities = function_exists( 'wp_get_abilities' ) ? wp_get_abilities() : array();
 		if ( ! is_array( $abilities ) ) {
@@ -199,7 +199,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 			'category_label' => (string) $category_label,
 			'show_in_rest' => is_bool( $show_in_rest ) ? $show_in_rest : null,
 			'disabled' => (bool) $disabled,
-			'executions' => WP_ABEX_Store::get_execution_count( $name ),
+			'executions' => WP_ABIN_Store::get_execution_count( $name ),
 			'annotations' => $annotations,
 			'input_schema' => $input_schema,
 			'output_schema' => $output_schema,
@@ -235,10 +235,10 @@ final class WP_ABEX_Table extends WP_List_Table {
 	public function get_columns(): array {
 		return array(
 			'cb'          => '<input type="checkbox" />',
-			'name'        => __( 'Ability', 'abilities-explorer' ),
-			'category'    => __( 'Category', 'abilities-explorer' ),
-			'executions'  => __( 'Executions', 'abilities-explorer' ),
-			'status'      => __( 'Status', 'abilities-explorer' ),
+			'name'        => __( 'Ability', 'abilities-inspector' ),
+			'category'    => __( 'Category', 'abilities-inspector' ),
+			'executions'  => __( 'Executions', 'abilities-inspector' ),
+			'status'      => __( 'Status', 'abilities-inspector' ),
 			'details'     => '',
 		);
 	}
@@ -261,13 +261,13 @@ final class WP_ABEX_Table extends WP_List_Table {
 
 	public function get_bulk_actions(): array {
 		return array(
-			'bulk-disable' => __( 'Disable', 'abilities-explorer' ),
-			'bulk-enable'  => __( 'Enable', 'abilities-explorer' ),
+			'bulk-disable' => __( 'Disable', 'abilities-inspector' ),
+			'bulk-enable'  => __( 'Enable', 'abilities-inspector' ),
 		);
 	}
 
 	public function no_items() {
-		esc_html_e( 'No abilities found.', 'abilities-explorer' );
+		esc_html_e( 'No abilities found.', 'abilities-inspector' );
 	}
 
 	protected function get_views() {
@@ -279,19 +279,19 @@ final class WP_ABEX_Table extends WP_List_Table {
 			'<a href="%s" class="%s">%s</a>',
 			esc_url( add_query_arg( 'status', 'all', $base_url ) ),
 			$status === 'all' ? 'current' : '',
-			esc_html__( 'All', 'abilities-explorer' )
+			esc_html__( 'All', 'abilities-inspector' )
 		);
 		$views['enabled'] = sprintf(
 			'<a href="%s" class="%s">%s</a>',
 			esc_url( add_query_arg( 'status', 'enabled', $base_url ) ),
 			$status === 'enabled' ? 'current' : '',
-			esc_html__( 'Enabled', 'abilities-explorer' )
+			esc_html__( 'Enabled', 'abilities-inspector' )
 		);
 		$views['disabled'] = sprintf(
 			'<a href="%s" class="%s">%s</a>',
 			esc_url( add_query_arg( 'status', 'disabled', $base_url ) ),
 			$status === 'disabled' ? 'current' : '',
-			esc_html__( 'Disabled', 'abilities-explorer' )
+			esc_html__( 'Disabled', 'abilities-inspector' )
 		);
 
 		return $views;
@@ -303,10 +303,10 @@ final class WP_ABEX_Table extends WP_List_Table {
 		$categories = function_exists( 'wp_get_ability_categories' ) ? wp_get_ability_categories() : array();
 		$current = isset( $_GET['category'] ) ? sanitize_text_field( wp_unslash( $_GET['category'] ) ) : '';
 		?>
-		<div class="alignleft actions abex-actions">
-			<label for="abex-category" class="screen-reader-text"><?php esc_html_e( 'Filter by category', 'abilities-explorer' ); ?></label>
-			<select name="category" id="abex-category">
-				<option value=""><?php esc_html_e( 'All categories', 'abilities-explorer' ); ?></option>
+		<div class="alignleft actions abin-actions">
+			<label for="abin-category" class="screen-reader-text"><?php esc_html_e( 'Filter by category', 'abilities-inspector' ); ?></label>
+			<select name="category" id="abin-category">
+				<option value=""><?php esc_html_e( 'All categories', 'abilities-inspector' ); ?></option>
 				<?php
 				if ( is_array( $categories ) ) :
 					foreach ( $categories as $slug => $cat ) :
@@ -326,14 +326,14 @@ final class WP_ABEX_Table extends WP_List_Table {
 				endif;
 				?>
 			</select>
-			<?php submit_button( __( 'Filter', 'abilities-explorer' ), 'secondary', false, false ); ?>
+			<?php submit_button( __( 'Filter', 'abilities-inspector' ), 'secondary', false, false ); ?>
 		</div>
 		<?php
 	}
 
 	public function display() {
 		// Add our nonce to the list table form (which is the outer <form method="get"> in the page).
-		echo '<input type="hidden" name="abex_nonce" value="' . esc_attr( wp_create_nonce( 'abex_action' ) ) . '" />';
+		echo '<input type="hidden" name="abin_nonce" value="' . esc_attr( wp_create_nonce( 'abin_action' ) ) . '" />';
 		parent::display();
 	}
 
@@ -341,10 +341,10 @@ final class WP_ABEX_Table extends WP_List_Table {
 		$name = $item['name'];
 		$label = $item['label'] ?: $name;
 
-		$desc = $item['description'] ? '<div class="abex-muted abex-trim">' . esc_html( $item['description'] ) . '</div>' : '';
+		$desc = $item['description'] ? '<div class="abin-muted abin-trim">' . esc_html( $item['description'] ) . '</div>' : '';
 
 		$title = sprintf(
-			'<div class="abex-title"><code>%s</code></div><div class="abex-label">%s</div>%s',
+			'<div class="abin-title"><code>%s</code></div><div class="abin-label">%s</div>%s',
 			esc_html( $name ),
 			esc_html( $label ),
 			$desc
@@ -354,7 +354,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 	}
 
 	public function column_category( $item ) {
-		return $item['category_label'] ? esc_html( $item['category_label'] ) : '<span class="abex-muted">—</span>';
+		return $item['category_label'] ? esc_html( $item['category_label'] ) : '<span class="abin-muted">—</span>';
 	}
 
 	public function column_executions( $item ) {
@@ -363,27 +363,27 @@ final class WP_ABEX_Table extends WP_List_Table {
 
 	public function column_status( $item ) {
 		return ! empty( $item['disabled'] )
-			? '<span class="abex-chip abex-chip--warn">' . esc_html__( 'Disabled', 'abilities-explorer' ) . '</span>'
-			: '<span class="abex-chip abex-chip--ok">' . esc_html__( 'Enabled', 'abilities-explorer' ) . '</span>';
+			? '<span class="abin-chip abin-chip--warn">' . esc_html__( 'Disabled', 'abilities-inspector' ) . '</span>'
+			: '<span class="abin-chip abin-chip--ok">' . esc_html__( 'Enabled', 'abilities-inspector' ) . '</span>';
 	}
 
 	public function column_details( $item ) {
 		$base = remove_query_arg( array( 'action', 'ability', 'paged' ) );
 		if ( ! empty( $item['disabled'] ) ) {
-			$toggle_label = __( 'Enable', 'abilities-explorer' );
+			$toggle_label = __( 'Enable', 'abilities-inspector' );
 			$toggle_url = add_query_arg( array(
 				'action' => 'enable',
 				'ability' => rawurlencode( $item['name'] ),
 			), $base );
 		} else {
-			$toggle_label = __( 'Disable', 'abilities-explorer' );
+			$toggle_label = __( 'Disable', 'abilities-inspector' );
 			$toggle_url = add_query_arg( array(
 				'action' => 'disable',
 				'ability' => rawurlencode( $item['name'] ),
 			), $base );
 		}
-		$toggle_url = wp_nonce_url( $toggle_url, 'abex_action', 'abex_nonce' );
-		$toggle_class = ! empty( $item['disabled'] ) ? 'button button-small abex-toggle' : 'button button-small abex-toggle abex-danger';
+		$toggle_url = wp_nonce_url( $toggle_url, 'abin_action', 'abin_nonce' );
+		$toggle_class = ! empty( $item['disabled'] ) ? 'button button-small abin-toggle' : 'button button-small abin-toggle abin-danger';
 
 		// Button toggles a hidden details row in JS.
 		$data = array(
@@ -402,9 +402,9 @@ final class WP_ABEX_Table extends WP_List_Table {
 
 		$json = wp_json_encode( $data );
 		$details_button = sprintf(
-			'<button type="button" class="button button-small abex-details" data-ability="%s">%s <span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span></button>',
+			'<button type="button" class="button button-small abin-details" data-ability="%s">%s <span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span></button>',
 			esc_attr( base64_encode( $json ) ),
-			esc_html__( 'Details', 'abilities-explorer' )
+			esc_html__( 'Details', 'abilities-inspector' )
 		);
 		$toggle_link = sprintf(
 			'<a href="%s" class="%s">%s</a>',
@@ -420,9 +420,9 @@ final class WP_ABEX_Table extends WP_List_Table {
 		parent::single_row( $item );
 
 		// Render a hidden "details" row right after each item row.
-		echo '<tr class="abex-details-row" style="display:none;">';
+		echo '<tr class="abin-details-row" style="display:none;">';
 		echo '<td colspan="' . esc_attr( count( $this->get_columns() ) ) . '">';
-		echo '<div class="abex-details-panel"></div>';
+		echo '<div class="abin-details-panel"></div>';
 		echo '</td></tr>';
 	}
 }

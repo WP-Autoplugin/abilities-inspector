@@ -1,6 +1,6 @@
-# Abilities Explorer
+# Abilities Inspector
 
-Abilities Explorer is a WordPress admin plugin that lets you browse every registered Ability on your site and quickly disable or re-enable them. It is built for the WordPress Abilities API and provides a fast, filterable list table with bulk actions plus a details panel for deeper inspection.
+Abilities Inspector is a WordPress admin plugin that lets you browse every registered Ability on your site and quickly disable or re-enable them. It is built for the WordPress Abilities API and provides a fast, filterable list table with bulk actions plus a details panel for deeper inspection.
 
 ## Key Features
 
@@ -20,12 +20,12 @@ Abilities Explorer is a WordPress admin plugin that lets you browse every regist
 ## Installation
 
 1. Upload the plugin folder to `wp-content/plugins/` or install the ZIP via **Plugins → Add New → Upload Plugin**.
-2. Activate **Abilities Explorer**.
-3. Go to **Tools → Abilities Explorer**.
+2. Activate **Abilities Inspector**.
+3. Go to **Tools → Abilities Inspector**.
 
 ## Usage
 
-1. Open **Tools → Abilities Explorer** in wp-admin.
+1. Open **Tools → Abilities Inspector** in wp-admin.
 2. Use the status tabs (All / Enabled / Disabled) and the category filter to narrow results.
 3. Search by ability name, label, description, or category.
 4. Click **Disable** or **Enable** to toggle a single ability.
@@ -43,9 +43,9 @@ Disabled abilities are stored in a WordPress option and applied on every registr
 
 ## Screenshots
 
-1. **Abilities Explorer admin screen**
+1. **Abilities Inspector admin screen**
 
-![Abilities Explorer admin screen](assets/screenshot-1.png)
+![Abilities Inspector admin screen](assets/screenshot-1.png)
 
 ## Frequently Asked Questions
 
@@ -59,7 +59,7 @@ Abilities are only available when the Abilities API is present. You need WordPre
 No. You can re-enable an ability at any time from the same admin screen. The plugin only stores the disabled list in a WordPress option.
 
 ### Does this affect custom or plugin-registered abilities?
-Yes. Abilities Explorer lists and manages any ability registered through the Abilities API.
+Yes. Abilities Inspector lists and manages any ability registered through the Abilities API.
 
 ## Development Notes
 
