@@ -1,4 +1,18 @@
 (function($){
+	function applyStriping() {
+		$('.abex-wrap .wp-list-table').each(function(){
+			var $table = $(this);
+			var $rows = $table.find('tbody tr').not('.abex-details-row');
+
+			$rows.addClass('abex-row').removeClass('abex-alt');
+			$rows.each(function(index){
+				if (index % 2 === 0) {
+					$(this).addClass('abex-alt');
+				}
+			});
+		});
+	}
+
 	function prettyJSON(obj) {
 		try {
 			if (obj === null || typeof obj === 'undefined' || obj === '') return '';
@@ -75,6 +89,7 @@
 		if ($detailsRow.is(':visible')) {
 			$detailsRow.hide();
 			$btn.removeClass('is-open');
+			applyStriping();
 			return;
 		}
 
@@ -89,5 +104,8 @@
 
 		$detailsRow.show();
 		$btn.addClass('is-open');
+		applyStriping();
 	});
+
+	$(applyStriping);
 })(jQuery);

@@ -46,8 +46,22 @@
 	display: inline-flex;
 	align-items: center;
 	padding: 0 8px;
+	gap: 4px;
+}
+.abex-toggle.button {
+	margin-right: 6px;
+}
+.abex-details .dashicons {
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
 }
 .abex-details-row td { padding: 0 10px 10px 10px; }
+.abex-wrap .wp-list-table.striped > tbody > tr.abex-row { background: #fff; }
+.abex-wrap .wp-list-table.striped > tbody > tr.abex-row.abex-alt { background: #f6f7f7; }
+.abex-wrap .wp-list-table.striped > tbody > tr.abex-details-row { background: #fff; }
+.abex-wrap .wp-list-table.striped > tbody > tr.abex-row.abex-alt + tr.abex-details-row { background: #f6f7f7; }
 
 .abex-details-panel {
 	border: 1px solid #dcdcde;

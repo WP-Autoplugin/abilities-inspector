@@ -333,28 +333,6 @@ final class WP_ABEX_Table extends WP_List_Table {
 
 		$desc = $item['description'] ? '<div class="abex-muted abex-trim">' . esc_html( $item['description'] ) . '</div>' : '';
 
-		$actions = array();
-		$base = remove_query_arg( array( 'action', 'ability', 'paged' ) );
-		if ( ! empty( $item['disabled'] ) ) {
-			$actions['enable'] = sprintf(
-				'<a href="%s">%s</a>',
-				esc_url( add_query_arg( array(
-					'action' => 'enable',
-					'ability' => rawurlencode( $name ),
-				), $base ) ),
-				esc_html__( 'Enable', 'abilities-explorer' )
-			);
-		} else {
-			$actions['disable'] = sprintf(
-				'<a href="%s" class="abex-danger">%s</a>',
-				esc_url( add_query_arg( array(
-					'action' => 'disable',
-					'ability' => rawurlencode( $name ),
-				), $base ) ),
-				esc_html__( 'Disable', 'abilities-explorer' )
-			);
-		}
-
 		$title = sprintf(
 			'<div class="abex-title"><code>%s</code></div><div class="abex-label">%s</div>%s',
 			esc_html( $name ),
@@ -362,7 +340,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 			$desc
 		);
 
-		return $title . $this->row_actions( $actions );
+		return $title;
 	}
 
 	public function column_category( $item ) {
@@ -376,6 +354,23 @@ final class WP_ABEX_Table extends WP_List_Table {
 	}
 
 	public function column_details( $item ) {
+		$base = remove_query_arg( array( 'action', 'ability', 'paged' ) );
+		if ( ! empty( $item['disabled'] ) ) {
+			$toggle_label = __( 'Enable', 'abilities-explorer' );
+			$toggle_url = add_query_arg( array(
+				'action' => 'enable',
+				'ability' => rawurlencode( $item['name'] ),
+			), $base );
+		} else {
+			$toggle_label = __( 'Disable', 'abilities-explorer' );
+			$toggle_url = add_query_arg( array(
+				'action' => 'disable',
+				'ability' => rawurlencode( $item['name'] ),
+			), $base );
+		}
+		$toggle_url = wp_nonce_url( $toggle_url, 'abex_action', 'abex_nonce' );
+		$toggle_class = ! empty( $item['disabled'] ) ? 'button button-small abex-toggle' : 'button button-small abex-toggle abex-danger';
+
 		// Button toggles a hidden details row in JS.
 		$data = array(
 			'name' => $item['name'],
@@ -391,11 +386,19 @@ final class WP_ABEX_Table extends WP_List_Table {
 		);
 
 		$json = wp_json_encode( $data );
-		return sprintf(
-			'<button type="button" class="button button-small abex-details" data-ability="%s">%s</button>',
+		$details_button = sprintf(
+			'<button type="button" class="button button-small abex-details" data-ability="%s">%s <span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span></button>',
 			esc_attr( base64_encode( $json ) ),
 			esc_html__( 'Details', 'abilities-explorer' )
 		);
+		$toggle_link = sprintf(
+			'<a href="%s" class="%s">%s</a>',
+			esc_url( $toggle_url ),
+			esc_attr( $toggle_class ),
+			esc_html( $toggle_label )
+		);
+
+		return $toggle_link . ' ' . $details_button;
 	}
 
 	public function single_row( $item ) {
