@@ -229,7 +229,6 @@ final class WP_ABEX_Table extends WP_List_Table {
 			'cb'          => '<input type="checkbox" />',
 			'name'        => __( 'Ability', 'abilities-explorer' ),
 			'category'    => __( 'Category', 'abilities-explorer' ),
-			'show_in_rest'=> __( 'REST', 'abilities-explorer' ),
 			'status'      => __( 'Status', 'abilities-explorer' ),
 			'details'     => '',
 		);
@@ -332,13 +331,6 @@ final class WP_ABEX_Table extends WP_List_Table {
 		$name = $item['name'];
 		$label = $item['label'] ?: $name;
 
-		$badge = '';
-		if ( ! empty( $item['disabled'] ) ) {
-			$badge = '<span class="abex-pill abex-pill--off">' . esc_html__( 'Disabled', 'abilities-explorer' ) . '</span>';
-		} else {
-			$badge = '<span class="abex-pill abex-pill--on">' . esc_html__( 'Enabled', 'abilities-explorer' ) . '</span>';
-		}
-
 		$desc = $item['description'] ? '<div class="abex-muted abex-trim">' . esc_html( $item['description'] ) . '</div>' : '';
 
 		$actions = array();
@@ -364,9 +356,8 @@ final class WP_ABEX_Table extends WP_List_Table {
 		}
 
 		$title = sprintf(
-			'<div class="abex-title"><code>%s</code>%s</div><div class="abex-label">%s</div>%s',
+			'<div class="abex-title"><code>%s</code></div><div class="abex-label">%s</div>%s',
 			esc_html( $name ),
-			$badge,
 			esc_html( $label ),
 			$desc
 		);
@@ -376,15 +367,6 @@ final class WP_ABEX_Table extends WP_List_Table {
 
 	public function column_category( $item ) {
 		return $item['category_label'] ? esc_html( $item['category_label'] ) : '<span class="abex-muted">—</span>';
-	}
-
-	public function column_show_in_rest( $item ) {
-		if ( is_bool( $item['show_in_rest'] ) ) {
-			return $item['show_in_rest']
-				? '<span class="abex-chip abex-chip--ok">true</span>'
-				: '<span class="abex-chip">false</span>';
-		}
-		return '<span class="abex-muted">—</span>';
 	}
 
 	public function column_status( $item ) {
@@ -410,8 +392,9 @@ final class WP_ABEX_Table extends WP_List_Table {
 
 		$json = wp_json_encode( $data );
 		return sprintf(
-			'<button type="button" class="button button-small abex-details" data-ability="%s"><span class="dashicons dashicons-info-outline"></span></button>',
-			esc_attr( base64_encode( $json ) )
+			'<button type="button" class="button button-small abex-details" data-ability="%s">%s</button>',
+			esc_attr( base64_encode( $json ) ),
+			esc_html__( 'Details', 'abilities-explorer' )
 		);
 	}
 

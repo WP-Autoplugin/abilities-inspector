@@ -39,7 +39,14 @@
 .abex-chip--ok { background: #edfaef; border-color: #b8e6bf; }
 .abex-chip--warn { background: #fcf0f1; border-color: #f1c8cb; }
 
-.abex-details.button .dashicons { margin-top: 4px; }
+.abex-wrap .wp-list-table th.column-name,
+.abex-wrap .wp-list-table td.column-name { width: 45%; }
+
+.abex-details.button {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 8px;
+}
 .abex-details-row td { padding: 0 10px 10px 10px; }
 
 .abex-details-panel {
@@ -77,4 +84,3 @@
 	color: #50575e;
 	font-size: 12px;
 }
-

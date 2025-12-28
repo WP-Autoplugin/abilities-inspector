@@ -51,7 +51,7 @@
 
 		html += '<div class="abex-note">Note: Some fields may appear blank if the registering plugin does not provide them or if the Abilities object does not expose them as public accessors.</div>';
 
-		var $wrap = $('<div class="abex-details-panel"></div>').html(html);
+		var $wrap = $('<div class="abex-details-content"></div>').html(html);
 
 		var preIndex = 0;
 		if (ann) { $wrap.find('pre.abex-pre').eq(preIndex++).text(ann); }
