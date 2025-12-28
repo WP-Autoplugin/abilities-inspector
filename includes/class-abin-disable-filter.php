@@ -15,16 +15,18 @@ final class WP_ABIN_Disable_Filter {
 	 *
 	 * We:
 	 * - force show_in_rest=false (so it won't be discoverable / executable via REST)
-	 * - replace permission_callback with a callback that denies with WP_Error(403)
+	 * - replace execute_callback with a callback that denies with WP_Error(403)
 	 */
 	public static function filter_register_args( array $args, string $name ): array {
 		if ( WP_ABIN_Store::is_disabled( $name ) ) {
 			$args['show_in_rest'] = false;
-
-			$args['permission_callback'] = static function() use ( $name ) {
+			$args['permission_callback'] = '__return_true';
+			$args['execute_callback']    = static function( $input = null ) use ( $name ) {
+				$message = sprintf( 'Ability "%s" is disabled on this site.', $name );
+				$message = apply_filters( 'abin_disabled_ability_message', $message, $name, $input );
 				return new WP_Error(
 					'abin_ability_disabled',
-					sprintf( 'Ability "%s" is disabled by Abilities Inspector.', $name ),
+					$message,
 					array( 'status' => 403 )
 				);
 			};
