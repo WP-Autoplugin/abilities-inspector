@@ -19,9 +19,11 @@ define( 'ABEX_URL', plugin_dir_url( __FILE__ ) );
 
 require_once ABEX_PATH . 'includes/class-abex-store.php';
 require_once ABEX_PATH . 'includes/class-abex-disable-filter.php';
+require_once ABEX_PATH . 'includes/class-abex-usage.php';
 require_once ABEX_PATH . 'includes/class-abex-admin.php';
 
 add_action( 'plugins_loaded', function() {
 	WP_ABEX_Disable_Filter::init();
+	WP_ABEX_Usage::init();
 	WP_ABEX_Admin::init();
 } );

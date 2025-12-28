@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 final class WP_ABEX_Store {
 	const OPTION_DISABLED = 'abex_disabled_abilities';
+	const OPTION_EXEC_COUNTS = 'abex_ability_exec_counts';
 
 	/**
 	 * Returns a set: [ ability_name => true ].
@@ -42,5 +43,45 @@ final class WP_ABEX_Store {
 	public static function is_disabled( string $name ): bool {
 		$set = self::get_disabled_set();
 		return isset( $set[ $name ] );
+	}
+
+	private static function normalize_counts( $counts ): array {
+		if ( ! is_array( $counts ) ) {
+			return array();
+		}
+
+		$normalized = array();
+		foreach ( $counts as $name => $count ) {
+			if ( ! is_string( $name ) || $name === '' ) {
+				continue;
+			}
+			if ( is_numeric( $count ) ) {
+				$normalized[ $name ] = max( 0, (int) $count );
+			}
+		}
+
+		return $normalized;
+	}
+
+	public static function get_execution_counts(): array {
+		return self::normalize_counts( get_option( self::OPTION_EXEC_COUNTS, array() ) );
+	}
+
+	public static function get_execution_count( string $name ): int {
+		if ( $name === '' ) {
+			return 0;
+		}
+		$counts = self::get_execution_counts();
+		return isset( $counts[ $name ] ) ? (int) $counts[ $name ] : 0;
+	}
+
+	public static function increment_execution( string $name ): void {
+		if ( $name === '' ) {
+			return;
+		}
+
+		$counts = self::get_execution_counts();
+		$counts[ $name ] = isset( $counts[ $name ] ) ? (int) $counts[ $name ] + 1 : 1;
+		update_option( self::OPTION_EXEC_COUNTS, $counts, false );
 	}
 }

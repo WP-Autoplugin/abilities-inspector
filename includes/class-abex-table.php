@@ -141,7 +141,14 @@ final class WP_ABEX_Table extends WP_List_Table {
 		usort( $items, function( $a, $b ) use ( $orderby, $order ) {
 			$va = $a[ $orderby ] ?? '';
 			$vb = $b[ $orderby ] ?? '';
-			$cmp = strcasecmp( (string) $va, (string) $vb );
+			switch ( $orderby ) {
+				case 'executions':
+				case 'disabled':
+					$cmp = (int) $va <=> (int) $vb;
+					break;
+				default:
+					$cmp = strcasecmp( (string) $va, (string) $vb );
+			}
 			return ( $order === 'desc' ) ? -$cmp : $cmp;
 		} );
 
@@ -192,6 +199,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 			'category_label' => (string) $category_label,
 			'show_in_rest' => is_bool( $show_in_rest ) ? $show_in_rest : null,
 			'disabled' => (bool) $disabled,
+			'executions' => WP_ABEX_Store::get_execution_count( $name ),
 			'annotations' => $annotations,
 			'input_schema' => $input_schema,
 			'output_schema' => $output_schema,
@@ -229,6 +237,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 			'cb'          => '<input type="checkbox" />',
 			'name'        => __( 'Ability', 'abilities-explorer' ),
 			'category'    => __( 'Category', 'abilities-explorer' ),
+			'executions'  => __( 'Executions', 'abilities-explorer' ),
 			'status'      => __( 'Status', 'abilities-explorer' ),
 			'details'     => '',
 		);
@@ -238,6 +247,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 		return array(
 			'name'     => array( 'name', true ),
 			'category' => array( 'category_label', false ),
+			'executions' => array( 'executions', false ),
 			'status'   => array( 'disabled', false ),
 		);
 	}
@@ -347,6 +357,10 @@ final class WP_ABEX_Table extends WP_List_Table {
 		return $item['category_label'] ? esc_html( $item['category_label'] ) : '<span class="abex-muted">—</span>';
 	}
 
+	public function column_executions( $item ) {
+		return '<code>' . esc_html( number_format_i18n( (int) $item['executions'] ) ) . '</code>';
+	}
+
 	public function column_status( $item ) {
 		return ! empty( $item['disabled'] )
 			? '<span class="abex-chip abex-chip--warn">' . esc_html__( 'Disabled', 'abilities-explorer' ) . '</span>'
@@ -380,6 +394,7 @@ final class WP_ABEX_Table extends WP_List_Table {
 			'category_label' => $item['category_label'],
 			'show_in_rest' => $item['show_in_rest'],
 			'disabled' => $item['disabled'],
+			'executions' => $item['executions'],
 			'annotations' => $item['annotations'],
 			'input_schema' => $item['input_schema'],
 			'output_schema' => $item['output_schema'],

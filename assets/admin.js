@@ -44,6 +44,7 @@
 		html += '    <dl class="abex-kv">';
 		html += '      <dt>Category</dt><dd>' + $('<div/>').text(data.category_label || data.category || '—').html() + '</dd>';
 		html += '      <dt>show_in_rest</dt><dd><code>' + rest + '</code></dd>';
+		html += '      <dt>Executions</dt><dd><code>' + (typeof data.executions === 'number' ? data.executions : '—') + '</code></dd>';
 		html += '      <dt>Status</dt><dd><code>' + status + '</code></dd>';
 		html += '    </dl>';
 		html += '  </div>';

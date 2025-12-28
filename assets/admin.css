@@ -40,7 +40,7 @@
 .abex-chip--warn { background: #fcf0f1; border-color: #f1c8cb; }
 
 .abex-wrap .wp-list-table th.column-name,
-.abex-wrap .wp-list-table td.column-name { width: 45%; }
+.abex-wrap .wp-list-table td.column-name { width: 35%; }
 
 .abex-details.button {
 	display: inline-flex;
