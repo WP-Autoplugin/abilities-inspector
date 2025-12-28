@@ -1,5 +1,5 @@
 === Abilities Explorer ===
-Contributors: yourname
+Contributors: pbalazs
 Tags: abilities, ai, admin
 Requires at least: 6.9
 Tested up to: 6.9
@@ -18,5 +18,9 @@ Disabled abilities are blocked by overriding their permission_callback during re
 3. Go to Tools → Abilities Explorer.
 
 == Changelog ==
+
+= 0.3.0 =
+* Added counter to see how many times an ability is used across the site.
+
 = 0.2.0 =
 * Nicer UI with list table, filters, search, bulk actions, and details panel.

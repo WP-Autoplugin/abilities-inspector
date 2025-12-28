@@ -6,6 +6,7 @@ Abilities Explorer is a WordPress admin plugin that lets you browse every regist
 
 - **Browse all abilities** registered by WordPress core and plugins.
 - **Enable/disable abilities** from a single screen.
+- **Count of usage** showing how many times each ability is used across the site.
 - **Bulk actions** for enabling or disabling multiple abilities at once.
 - **Filters & search** by status, category, and free text.
 - **Details panel** with metadata like description, category label, REST visibility, annotations, and input/output schemas (when available).
