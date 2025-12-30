@@ -5,6 +5,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 	private $items_raw = array();
 	private $total_count = 0;
 	private $disabled_count = 0;
+	private $available_providers = array();
 
 	public function __construct() {
 		parent::__construct( array(
@@ -101,6 +102,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 		foreach ( $abilities as $name => $ability ) {
 			$items[] = $this->extract_ability_data( $name, $ability, $disabled_set );
 		}
+		$this->available_providers = $this->collect_providers( $items );
 
 		// Count totals.
 		$this->total_count = count( $items );
@@ -285,7 +287,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 
 	protected function get_views() {
 		$status = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : 'all';
-		$base_url = remove_query_arg( array( 'status', 'paged' ) );
+		$base_url = remove_query_arg( array( 'status', 'paged', 'category', 'provider' ) );
 		$views = array();
 
 		$views['all'] = sprintf(
@@ -316,6 +318,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 		$categories = function_exists( 'wp_get_ability_categories' ) ? wp_get_ability_categories() : array();
 		$current = isset( $_GET['category'] ) ? sanitize_text_field( wp_unslash( $_GET['category'] ) ) : '';
 		$current_provider = isset( $_GET['provider'] ) ? sanitize_key( wp_unslash( $_GET['provider'] ) ) : '';
+		$available_providers = $this->available_providers;
 		?>
 		<div class="alignleft actions abin-actions">
 			<label for="abin-provider" class="screen-reader-text"><?php esc_html_e( 'Filter by provider', 'abilities-inspector' ); ?></label>
@@ -323,13 +326,15 @@ final class WP_ABIN_Table extends WP_List_Table {
 				<option value=""><?php esc_html_e( 'All providers', 'abilities-inspector' ); ?></option>
 				<?php
 				$providers = array(
+					'core'      => __( 'Core', 'abilities-inspector' ),
 					'plugin'    => __( 'Plugin', 'abilities-inspector' ),
 					'mu-plugin' => __( 'MU Plugin', 'abilities-inspector' ),
 					'theme'     => __( 'Theme', 'abilities-inspector' ),
-					'core'      => __( 'Core', 'abilities-inspector' ),
-					'content'   => __( 'wp-content', 'abilities-inspector' ),
 				);
 				foreach ( $providers as $slug => $label ) :
+					if ( empty( $available_providers[ $slug ] ) ) {
+						continue;
+					}
 					printf(
 						'<option value="%s" %s>%s</option>',
 						esc_attr( $slug ),
@@ -491,5 +496,15 @@ final class WP_ABIN_Table extends WP_List_Table {
 		}
 
 		return $label;
+	}
+
+	private function collect_providers( array $items ): array {
+		$available = array();
+		foreach ( $items as $item ) {
+			if ( ! empty( $item['provider_type'] ) ) {
+				$available[ $item['provider_type'] ] = true;
+			}
+		}
+		return $available;
 	}
 }

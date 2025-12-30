@@ -37,7 +37,7 @@ Abilities Inspector is a WordPress admin plugin that lets you browse every regis
 When an ability is disabled, the plugin intercepts its registration and:
 
 - Sets `show_in_rest` to `false` (so it won’t be discoverable or executable via REST).
-- Replaces the `permission_callback` with a 403 response.
+- Replaces the `execute_callback` with a 403 response.
 
 Disabled abilities are stored in a WordPress option and applied on every registration, so the behavior persists across requests and admin sessions.
 
