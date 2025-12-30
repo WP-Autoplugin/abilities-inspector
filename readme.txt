@@ -3,7 +3,7 @@ Contributors: pbalazs
 Tags: abilities, ai, admin
 Requires at least: 6.9
 Tested up to: 6.9
-Stable tag: 0.3.1
+Stable tag: 0.4.0
 License: GPLv2 or later
 
 A simple wp-admin UI to browse registered Abilities and disable/enable them.
@@ -18,6 +18,10 @@ Disabled abilities are blocked by overriding their execute_callback to always re
 3. Go to Tools → Abilities Inspector.
 
 == Changelog ==
+
+= 0.4.0 =
+* Added "Registered by" data to show which plugin or theme registered the ability.
+* Added "Provider" column to the abilities list table to show if a plugin, a theme, or core registered the ability.
 
 = 0.3.1 =
 * Better handling of disabled abilities.

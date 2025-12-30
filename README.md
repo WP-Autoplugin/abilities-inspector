@@ -8,7 +8,7 @@ Abilities Inspector is a WordPress admin plugin that lets you browse every regis
 - **Enable/disable abilities** from a single screen.
 - **Count of usage** showing how many times each ability is used across the site.
 - **Bulk actions** for enabling or disabling multiple abilities at once.
-- **Filters & search** by status, category, and free text.
+- **Filters & search** by status, category, provider, and free text.
 - **Details panel** with metadata like description, category label, REST visibility, annotations, and input/output schemas (when available).
 
 ## Requirements
@@ -66,12 +66,6 @@ Yes. Abilities Inspector lists and manages any ability registered through the Ab
 - No build process is required; assets are loaded directly.
 - Admin UI assets live in `assets/`.
 - Core logic is in `includes/`.
-
-## Changelog
-
-### 0.2.0
-
-- Added list table UI with filters, search, bulk actions, and a details panel.
 
 ## License
 
