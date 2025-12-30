@@ -61,6 +61,7 @@
 		var status = data.disabled ? 'Disabled' : 'Enabled';
 		var desc = data.description ? $('<div/>').text(data.description).html() : '—';
 		var origin = formatOrigin(data.origin);
+		var provider = data.provider_label || '—';
 
 		var html = '';
 		html += '<div class="abin-grid">';
@@ -74,6 +75,7 @@
 		html += '  <div>';
 		html += '    <dl class="abin-kv">';
 		html += '      <dt>Category</dt><dd>' + $('<div/>').text(data.category_label || data.category || '—').html() + '</dd>';
+		html += '      <dt>Provider</dt><dd>' + $('<div/>').text(provider).html() + '</dd>';
 		html += '      <dt>show_in_rest</dt><dd><code>' + rest + '</code></dd>';
 		html += '      <dt>Executions</dt><dd><code>' + (typeof data.executions === 'number' ? data.executions : '—') + '</code></dd>';
 		html += '      <dt>Status</dt><dd><code>' + status + '</code></dd>';

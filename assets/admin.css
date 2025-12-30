@@ -42,6 +42,19 @@
 .abin-wrap .wp-list-table th.column-name,
 .abin-wrap .wp-list-table td.column-name { width: 35%; }
 
+.abin-wrap .wp-list-table th.column-provider,
+.abin-wrap .wp-list-table td.column-provider { width: 110px; }
+
+.abin-wrap .wp-list-table th.column-executions,
+.abin-wrap .wp-list-table td.column-executions { width: 110px; }
+
+.abin-wrap .wp-list-table th.column-status,
+.abin-wrap .wp-list-table td.column-status { width: 90px; }
+
+td.details.column-details {
+    text-align: right;
+}
+
 .abin-details.button {
 	display: inline-flex;
 	align-items: center;

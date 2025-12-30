@@ -114,6 +114,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 		// Apply filters (status/category/search).
 		$status = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : 'all';
 		$category = isset( $_GET['category'] ) ? sanitize_text_field( wp_unslash( $_GET['category'] ) ) : '';
+		$provider = isset( $_GET['provider'] ) ? sanitize_key( wp_unslash( $_GET['provider'] ) ) : '';
 		$search = isset( $_REQUEST['s'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 		if ( $status === 'enabled' ) {
@@ -126,10 +127,14 @@ final class WP_ABIN_Table extends WP_List_Table {
 			$items = array_values( array_filter( $items, fn($i) => (string) $i['category'] === (string) $category ) );
 		}
 
+		if ( $provider !== '' ) {
+			$items = array_values( array_filter( $items, fn($i) => (string) $i['provider_type'] === (string) $provider ) );
+		}
+
 		if ( $search !== '' ) {
 			$needle = mb_strtolower( $search );
 			$items = array_values( array_filter( $items, function( $i ) use ( $needle ) {
-				$hay = mb_strtolower( $i['name'] . ' ' . $i['label'] . ' ' . $i['description'] . ' ' . $i['category_label'] );
+				$hay = mb_strtolower( $i['name'] . ' ' . $i['label'] . ' ' . $i['description'] . ' ' . $i['category_label'] . ' ' . $i['provider_label'] );
 				return strpos( $hay, $needle ) !== false;
 			} ) );
 		}
@@ -182,6 +187,8 @@ final class WP_ABIN_Table extends WP_List_Table {
 
 		$disabled = isset( $disabled_set[ $name ] );
 		$origin = class_exists( 'WP_ABIN_Origin' ) ? WP_ABIN_Origin::get( $name ) : array();
+		$provider_type = isset( $origin['type'] ) ? (string) $origin['type'] : '';
+		$provider_label = $this->format_provider_label( $origin );
 
 		$category_label = $category;
 		if ( function_exists( 'wp_get_ability_categories' ) ) {
@@ -198,6 +205,8 @@ final class WP_ABIN_Table extends WP_List_Table {
 			'description' => (string) $description,
 			'category' => (string) $category,
 			'category_label' => (string) $category_label,
+			'provider_type' => $provider_type,
+			'provider_label' => $provider_label,
 			'show_in_rest' => is_bool( $show_in_rest ) ? $show_in_rest : null,
 			'disabled' => (bool) $disabled,
 			'executions' => WP_ABIN_Store::get_execution_count( $name ),
@@ -239,6 +248,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 			'cb'          => '<input type="checkbox" />',
 			'name'        => __( 'Ability', 'abilities-inspector' ),
 			'category'    => __( 'Category', 'abilities-inspector' ),
+			'provider'    => __( 'Provider', 'abilities-inspector' ),
 			'executions'  => __( 'Executions', 'abilities-inspector' ),
 			'status'      => __( 'Status', 'abilities-inspector' ),
 			'details'     => '',
@@ -249,6 +259,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 		return array(
 			'name'     => array( 'name', true ),
 			'category' => array( 'category_label', false ),
+			'provider' => array( 'provider_label', false ),
 			'executions' => array( 'executions', false ),
 			'status'   => array( 'disabled', false ),
 		);
@@ -304,8 +315,30 @@ final class WP_ABIN_Table extends WP_List_Table {
 
 		$categories = function_exists( 'wp_get_ability_categories' ) ? wp_get_ability_categories() : array();
 		$current = isset( $_GET['category'] ) ? sanitize_text_field( wp_unslash( $_GET['category'] ) ) : '';
+		$current_provider = isset( $_GET['provider'] ) ? sanitize_key( wp_unslash( $_GET['provider'] ) ) : '';
 		?>
 		<div class="alignleft actions abin-actions">
+			<label for="abin-provider" class="screen-reader-text"><?php esc_html_e( 'Filter by provider', 'abilities-inspector' ); ?></label>
+			<select name="provider" id="abin-provider">
+				<option value=""><?php esc_html_e( 'All providers', 'abilities-inspector' ); ?></option>
+				<?php
+				$providers = array(
+					'plugin'    => __( 'Plugin', 'abilities-inspector' ),
+					'mu-plugin' => __( 'MU Plugin', 'abilities-inspector' ),
+					'theme'     => __( 'Theme', 'abilities-inspector' ),
+					'core'      => __( 'Core', 'abilities-inspector' ),
+					'content'   => __( 'wp-content', 'abilities-inspector' ),
+				);
+				foreach ( $providers as $slug => $label ) :
+					printf(
+						'<option value="%s" %s>%s</option>',
+						esc_attr( $slug ),
+						selected( $current_provider, $slug, false ),
+						esc_html( $label )
+					);
+				endforeach;
+				?>
+			</select>
 			<label for="abin-category" class="screen-reader-text"><?php esc_html_e( 'Filter by category', 'abilities-inspector' ); ?></label>
 			<select name="category" id="abin-category">
 				<option value=""><?php esc_html_e( 'All categories', 'abilities-inspector' ); ?></option>
@@ -359,6 +392,10 @@ final class WP_ABIN_Table extends WP_List_Table {
 		return $item['category_label'] ? esc_html( $item['category_label'] ) : '<span class="abin-muted">—</span>';
 	}
 
+	public function column_provider( $item ) {
+		return $item['provider_label'] ? esc_html( $item['provider_label'] ) : '<span class="abin-muted">—</span>';
+	}
+
 	public function column_executions( $item ) {
 		return '<code>' . esc_html( number_format_i18n( (int) $item['executions'] ) ) . '</code>';
 	}
@@ -394,6 +431,8 @@ final class WP_ABIN_Table extends WP_List_Table {
 			'description' => $item['description'],
 			'category' => $item['category'],
 			'category_label' => $item['category_label'],
+			'provider_type' => $item['provider_type'],
+			'provider_label' => $item['provider_label'],
 			'show_in_rest' => $item['show_in_rest'],
 			'disabled' => $item['disabled'],
 			'executions' => $item['executions'],
@@ -427,5 +466,30 @@ final class WP_ABIN_Table extends WP_List_Table {
 		echo '<td colspan="' . esc_attr( count( $this->get_columns() ) ) . '">';
 		echo '<div class="abin-details-panel"></div>';
 		echo '</td></tr>';
+	}
+
+	private function format_provider_label( array $origin ): string {
+		$type = isset( $origin['type'] ) ? (string) $origin['type'] : '';
+		$label = '';
+
+		switch ( $type ) {
+			case 'plugin':
+				$label = __( 'Plugin', 'abilities-inspector' );
+				break;
+			case 'mu-plugin':
+				$label = __( 'MU Plugin', 'abilities-inspector' );
+				break;
+			case 'theme':
+				$label = __( 'Theme', 'abilities-inspector' );
+				break;
+			case 'core':
+				$label = __( 'Core', 'abilities-inspector' );
+				break;
+			case 'content':
+				$label = __( 'wp-content', 'abilities-inspector' );
+				break;
+		}
+
+		return $label;
 	}
 }
