@@ -26,10 +26,41 @@
 		}
 	}
 
+	function formatOrigin(origin) {
+		if (!origin || typeof origin !== 'object') return { label: '—', file: '—' };
+
+		var typeMap = {
+			'plugin': 'Plugin',
+			'mu-plugin': 'MU Plugin',
+			'theme': 'Theme',
+			'core': 'WordPress Core',
+			'content': 'wp-content'
+		};
+
+		var typeLabel = origin.type ? (typeMap[origin.type] || origin.type) : '';
+		var label = origin.label || '';
+		var file = origin.file_display || origin.file || '';
+		var display = '—';
+
+		if (label && typeLabel) {
+			display = typeLabel + ': ' + label;
+		} else if (label) {
+			display = label;
+		} else if (typeLabel) {
+			display = typeLabel;
+		}
+
+		return {
+			label: display,
+			file: file ? $('<div/>').text(file).html() : '—'
+		};
+	}
+
 	function renderPanel(data) {
 		var rest = (typeof data.show_in_rest === 'boolean') ? (data.show_in_rest ? 'true' : 'false') : '—';
 		var status = data.disabled ? 'Disabled' : 'Enabled';
 		var desc = data.description ? $('<div/>').text(data.description).html() : '—';
+		var origin = formatOrigin(data.origin);
 
 		var html = '';
 		html += '<div class="abin-grid">';
@@ -46,6 +77,7 @@
 		html += '      <dt>show_in_rest</dt><dd><code>' + rest + '</code></dd>';
 		html += '      <dt>Executions</dt><dd><code>' + (typeof data.executions === 'number' ? data.executions : '—') + '</code></dd>';
 		html += '      <dt>Status</dt><dd><code>' + status + '</code></dd>';
+		html += '      <dt>Registered by</dt><dd><code>' + origin.file + '</code></dd>';
 		html += '    </dl>';
 		html += '  </div>';
 		html += '</div>';

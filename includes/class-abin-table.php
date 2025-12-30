@@ -181,6 +181,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 		$output_schema = $this->read_field( $ability, array( 'get_output_schema', 'output_schema' ), null );
 
 		$disabled = isset( $disabled_set[ $name ] );
+		$origin = class_exists( 'WP_ABIN_Origin' ) ? WP_ABIN_Origin::get( $name ) : array();
 
 		$category_label = $category;
 		if ( function_exists( 'wp_get_ability_categories' ) ) {
@@ -203,6 +204,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 			'annotations' => $annotations,
 			'input_schema' => $input_schema,
 			'output_schema' => $output_schema,
+			'origin' => $origin,
 		);
 	}
 
@@ -398,6 +400,7 @@ final class WP_ABIN_Table extends WP_List_Table {
 			'annotations' => $item['annotations'],
 			'input_schema' => $item['input_schema'],
 			'output_schema' => $item['output_schema'],
+			'origin' => $item['origin'],
 		);
 
 		$json = wp_json_encode( $data );

@@ -18,9 +18,12 @@ define( 'ABIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ABIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once ABIN_PATH . 'includes/class-abin-store.php';
+require_once ABIN_PATH . 'includes/class-abin-origin.php';
 require_once ABIN_PATH . 'includes/class-abin-disable-filter.php';
 require_once ABIN_PATH . 'includes/class-abin-usage.php';
 require_once ABIN_PATH . 'includes/class-abin-admin.php';
+
+WP_ABIN_Origin::init();
 
 add_action( 'plugins_loaded', function() {
 	WP_ABIN_Disable_Filter::init();
